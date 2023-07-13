@@ -2,44 +2,22 @@ const formAddTodo = document.querySelector(".form-add-todo");
 const inputSearchTodo = document.querySelector(".form-search input");
 const todosContainer = document.querySelector(".todos-container");
 
-const handlesAddingTask = event => {
+const addTodo = event => {
   event.preventDefault();
+  const inputValue = event.target.add.value.trim();
 
-  const inputValue = getInputValue(event);
+  if (inputValue.length > 0) {
+    const listItem = document.createElement("li");
 
-  if (isValidInput(inputValue)) {
-    addTaskToList(inputValue);
-    clearInput();
+    listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+    listItem.innerHTML = `<span>${inputValue}</span><i class="far fa-trash-alt delete"></i>`;
+    
+    todosContainer.appendChild(listItem);
+    formAddTodo.reset();
   }
 };
 
-const getInputValue = event => event.target.add.value.trim();
-
-const isValidInput = inputValue => inputValue.length > 0;
-
-const addTaskToList = inputValue => {
-  const taskItem = createTaskElement(inputValue);
-  todosContainer.appendChild(taskItem);
-};
-
-const createTaskElement = inputValue => {
-  const listItem = document.createElement("li");
-  listItem.classList.add(
-    "list-group-item",
-    "d-flex",
-    "justify-content-between",
-    "align-items-center"
-  );
-  listItem.innerHTML = `
-    <span>${inputValue}</span>
-    <i class="far fa-trash-alt delete"></i>
-  `;
-  return listItem;
-};
-
-const clearInput = () => formAddTodo.reset();
-
-const handleTaskDelete = event => {
+const deleteTodo = event => {
   const clickedElement = event.target;
   const isDeleteButton = Array.from(clickedElement.classList)
     .includes("delete");
@@ -60,13 +38,11 @@ const filterTodos = inputValue => {
   });
 };
 
-const handleSearchChange = event => {
+const searchTodo = event => {
   const inputValue = event.target.value.trim().toLocaleLowerCase();
   filterTodos(inputValue);
 };
 
-formAddTodo.addEventListener("submit", handlesAddingTask);
-
-todosContainer.addEventListener("click", handleTaskDelete);
-
-inputSearchTodo.addEventListener("input", handleSearchChange);
+formAddTodo.addEventListener("submit", addTodo);
+todosContainer.addEventListener("click", deleteTodo);
+inputSearchTodo.addEventListener("input", searchTodo);
