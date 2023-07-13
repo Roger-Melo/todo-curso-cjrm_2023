@@ -27,19 +27,17 @@ const deleteTodo = event => {
   }
 };
 
-const filterTodos = inputValue => {
-  Array.from(todosContainer.children).forEach((todo) => {
+const searchTodo = event => {
+  const inputValue = event.target.value.trim().toLocaleLowerCase();
+  const todos = Array.from(todosContainer.children)
+
+  todos.forEach(todo => {
     const todoText = todo.textContent.toLocaleLowerCase();
     const isMatch = todoText.includes(inputValue);
 
     todo.classList.toggle("hidden", !isMatch);
     todo.classList.toggle("d-flex", isMatch);
   });
-};
-
-const searchTodo = event => {
-  const inputValue = event.target.value.trim().toLocaleLowerCase();
-  filterTodos(inputValue);
 };
 
 formAddTodo.addEventListener("submit", addTodo);
