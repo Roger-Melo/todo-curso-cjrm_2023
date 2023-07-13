@@ -7,24 +7,23 @@ const addTodo = event => {
   const inputValue = event.target.add.value.trim();
 
   if (inputValue.length > 0) {
-    const listItem = document.createElement("li");
+    const todo = document.createElement("li");
 
-    listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-    listItem.innerHTML = `<span>${inputValue}</span><i class="far fa-trash-alt delete"></i>`;
+    todo.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+    todo.innerHTML = `<span>${inputValue}</span><i class="far fa-trash-alt delete"></i>`;
     
-    todosContainer.appendChild(listItem);
+    todosContainer.appendChild(todo);
     formAddTodo.reset();
   }
 };
 
 const deleteTodo = event => {
   const clickedElement = event.target;
-  const isDeleteButton = Array.from(clickedElement.classList)
-    .includes("delete");
+  const isDeleteButton = clickedElement.classList.contains("delete");
 
   if (isDeleteButton) {
-    const taskItem = clickedElement.parentElement;
-    taskItem.remove();
+    const todo = clickedElement.parentElement;
+    todo.remove();
   }
 };
 
